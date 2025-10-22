@@ -6,6 +6,12 @@ let globalPool: Pool;
 export function getDb() {
   if (!globalPool) {
     const connectionString = process.env.POSTGRES_URL;
+    
+    // 如果没有配置数据库连接字符串，返回 null
+    if (!connectionString) {
+      console.warn('⚠️ POSTGRES_URL not configured. Database features will be disabled.');
+      return null;
+    }
 
     globalPool = new Pool({
       connectionString,
