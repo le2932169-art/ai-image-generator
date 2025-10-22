@@ -1,6 +1,7 @@
 import NextAuth, { type AuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
+import CredentialsProvider from "next-auth/providers/credentials";
 import type { Provider } from "next-auth/providers/index";
 import { genUniSeq, getIsoTimestr } from "@/backend/utils/index";
 import { saveUser } from "@/backend/service/user";
@@ -10,7 +11,30 @@ import { getCreditUsageByUserId } from "@/backend/service/credit_usage";
 
 let providers: Provider[] = [];
 
-// 添加 GitHub OAuth 提供商（在中国大陆可正常访问）
+// 添加简单的邮箱登录（不依赖外部 API，避免网络问题）
+providers.push(
+  CredentialsProvider({
+    name: "email",
+    credentials: {
+      email: { label: "邮箱", type: "email", placeholder: "your@email.com" },
+      name: { label: "昵称", type: "text", placeholder: "您的昵称" }
+    },
+    async authorize(credentials) {
+      if (credentials?.email) {
+        // 简单验证：只要有邮箱就允许登录
+        return {
+          id: credentials.email,
+          email: credentials.email,
+          name: credentials.name || "用户",
+          image: `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(credentials.email)}`
+        };
+      }
+      return null;
+    },
+  })
+);
+
+// 添加 GitHub OAuth 提供商（需要网络访问 api.github.com）
 if (process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET) {
   providers.push(
     GitHubProvider({
