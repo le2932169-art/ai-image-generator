@@ -13,6 +13,7 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
+  const [isMounted, setIsMounted] = useState(false);
   const [themeName, setThemeName] = useState<string>('');
   const [currentTheme, setCurrentTheme] = useState<ColorTheme | null>(null);
 
@@ -31,6 +32,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   // 初始化时直接读取JSON配置并应用
   useEffect(() => {
+    setIsMounted(true);
     const initTheme = () => {
       const config = getColorConfig();
       const targetThemeName = config.currentTheme;
@@ -47,6 +49,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     
     initTheme();
   }, []);
+
+  // 如果还没有挂载到客户端，返回默认样式避免闪烁
+  if (!isMounted) {
+    return <div style={{ opacity: 0 }}>{children}</div>;
+  }
 
   return (
     <ThemeContext.Provider value={{

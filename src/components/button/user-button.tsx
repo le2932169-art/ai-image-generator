@@ -15,6 +15,7 @@ import { Icon } from "@iconify/react";
 import { useAppContext } from "@/contexts/app";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import NoSSR from "@/components/common/NoSSR";
 export default function UserButton() {
   const router = useRouter();
   const { data: session } = useSession();
@@ -27,28 +28,39 @@ export default function UserButton() {
   }, [session, setUser, user]);
 
   return (
-    <Dropdown placement="bottom-end">
-      <DropdownTrigger>
-        <Avatar
-          isBordered
-          as="button"
-          className="transition-transform hover:scale-110"
-          color="secondary"
-          name={user.nickname || user.email}
-          size="sm"
-          src={user.avatar_url}
-        />
-      </DropdownTrigger>
-      <DropdownMenu aria-label="User menu actions" variant="flat">
-        <DropdownItem key="profile" className="h-14 gap-2">
-          <User
+    <NoSSR fallback={
+      <Avatar
+        isBordered
+        as="button"
+        className="transition-transform hover:scale-110"
+        color="secondary"
+        name={user.nickname || user.email}
+        size="sm"
+        src={user.avatar_url}
+      />
+    }>
+      <Dropdown placement="bottom-end">
+        <DropdownTrigger>
+          <Avatar
+            isBordered
+            as="button"
+            className="transition-transform hover:scale-110"
+            color="secondary"
             name={user.nickname || user.email}
-            description={user.email}
-            avatarProps={{
-              src: user.avatar_url,
-            }}
+            size="sm"
+            src={user.avatar_url}
           />
-        </DropdownItem>
+        </DropdownTrigger>
+        <DropdownMenu aria-label="User menu actions" variant="flat">
+          <DropdownItem key="profile" className="h-14 gap-2">
+            <User
+              name={user.nickname || user.email}
+              description={user.email}
+              avatarProps={{
+                src: user.avatar_url,
+              }}
+            />
+          </DropdownItem>
         {/* <DropdownItem
           key="settings"
           startContent={<Icon icon="lucide:settings" width="16" height="16" />}
@@ -101,5 +113,6 @@ export default function UserButton() {
         </DropdownItem>
       </DropdownMenu>
     </Dropdown>
+    </NoSSR>
   );
 }

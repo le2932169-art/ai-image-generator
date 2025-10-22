@@ -5,6 +5,7 @@ import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button} from "@ne
 import type { Selection } from "@nextui-org/react";
 import React from "react";
 import { localesName } from "@/i18n/routing";
+import NoSSR from "@/components/common/NoSSR";
 
 export default function Locales() { 
     const [selectedKeys, setSelectedKeys] = React.useState<Selection>(new Set(["text"]));
@@ -28,30 +29,41 @@ export default function Locales() {
       };
 
       return (
-        <Dropdown>
-          <DropdownTrigger>
-            <Button 
-              variant="light"
-              className="capitalize"
-              startContent={<span role="img" aria-label="globe" className="">🌏</span>}
-              style={{ color: '#000000' }}
-             >
-              {locale.toUpperCase()}
-            </Button>
-          </DropdownTrigger>
-          <DropdownMenu 
-            variant="faded"
-            disallowEmptySelection
-            selectionMode="single"
-            selectedKeys={selectedKeys}
-            onSelectionChange={setSelectedKeys}
-          >
-            {Object.keys(localesName).map((item) => (
-              <DropdownItem key={item} onClick={() => changeLanguage(item)} style={{ color: '#000000' }}>
-                {localesName[item as keyof typeof localesName]}
-              </DropdownItem>
-            ))}
-          </DropdownMenu>   
-        </Dropdown>
+        <NoSSR fallback={
+          <Button 
+            variant="light"
+            className="capitalize"
+            startContent={<span role="img" aria-label="globe" className="">🌏</span>}
+            style={{ color: '#000000' }}
+           >
+            {locale.toUpperCase()}
+          </Button>
+        }>
+          <Dropdown>
+            <DropdownTrigger>
+              <Button 
+                variant="light"
+                className="capitalize"
+                startContent={<span role="img" aria-label="globe" className="">🌏</span>}
+                style={{ color: '#000000' }}
+               >
+                {locale.toUpperCase()}
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu 
+              variant="faded"
+              disallowEmptySelection
+              selectionMode="single"
+              selectedKeys={selectedKeys}
+              onSelectionChange={setSelectedKeys}
+            >
+              {Object.keys(localesName).map((item) => (
+                <DropdownItem key={item} onClick={() => changeLanguage(item)} style={{ color: '#000000' }}>
+                  {localesName[item as keyof typeof localesName]}
+                </DropdownItem>
+              ))}
+            </DropdownMenu>   
+          </Dropdown>
+        </NoSSR>
       );
 }

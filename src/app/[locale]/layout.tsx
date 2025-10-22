@@ -4,6 +4,7 @@ import { AppContextProvider } from "@/contexts/app";
 import { NextAuthSessionProvider } from "@/providers/session";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
+import { ClientWrapper } from "@/components/common/ClientWrapper";
 
 
 export default async function RootLayout({
@@ -21,15 +22,17 @@ export default async function RootLayout({
       </head>
 
       <body>
-        <AppContextProvider>
-          <Providers themeProps={{ attribute: "class", defaultTheme: "light" }}>
-            <NextAuthSessionProvider>
-              <NextIntlClientProvider messages={messages}>
-                {children}
-              </NextIntlClientProvider>
-            </NextAuthSessionProvider>
-          </Providers>
-        </AppContextProvider>
+        <ClientWrapper>
+          <AppContextProvider>
+            <Providers themeProps={{ attribute: "class", defaultTheme: "light" }}>
+              <NextAuthSessionProvider>
+                <NextIntlClientProvider messages={messages}>
+                  {children}
+                </NextIntlClientProvider>
+              </NextAuthSessionProvider>
+            </Providers>
+          </AppContextProvider>
+        </ClientWrapper>
       </body>
     </html>
   );

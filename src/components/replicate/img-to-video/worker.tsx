@@ -24,7 +24,7 @@ export default function Worker(props: {
   promotion: string;
 }) {
   const t = useTranslations(props.lang);
-  const [prompt, setPrompt] = useState(props.prompt);
+  const [prompt, setPrompt] = useState(props.prompt || "");
   const [generating, setGenerating] = useState<boolean>(false);
   const [prediction, setPrediction] = useState<Prediction | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -262,7 +262,7 @@ export default function Worker(props: {
               <textarea
                 className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200"
                 placeholder={t("input.promptTips")}
-                value={prompt}
+                value={prompt || ""}
                 onChange={(e) => setPrompt(e.target.value)}
                 rows={3}
               />

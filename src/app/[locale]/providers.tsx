@@ -13,6 +13,15 @@ export interface ProvidersProps {
 
 export function Providers({ children }: any) {
   const router = useRouter();
+  const [isMounted, setIsMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return <div suppressHydrationWarning>{children}</div>;
+  }
 
   return (
     <NextUIProvider navigate={router.push}>

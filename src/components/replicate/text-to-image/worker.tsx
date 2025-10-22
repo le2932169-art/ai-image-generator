@@ -180,7 +180,7 @@ export default function Worker(props: {
               placeholder={props.promptTips || "Enter a prompt here"}
               radius="lg"
               variant="bordered"
-              value={prompt}
+              value={prompt || ""}
               onChange={(e) => setPrompt(e.target.value)}
               aria-label="Prompt"
             />
