@@ -1,4 +1,4 @@
-import type { ButtonProps } from "@heroui/react";
+import type { ButtonProps } from "@nextui-org/react";
 
 export enum FrequencyEnum {
   Yearly = "yearly",
