@@ -1,18 +1,11 @@
+# *
 User-agent: *
 Allow: /
-Disallow: /dashboard
-Disallow: /legal/
+Disallow: /api/
+Disallow: /admin/
 
-User-agent: GPTBot
-User-agent: Claude-Web
-User-agent: Anthropic-AI
-User-agent: PerplexityBot
-User-agent: GoogleOther
-User-agent: DuckAssistBot
-Allow: /llms.txt
-Allow: /llms-full.txt
-Allow: /
-Disallow: /dashboard
-Disallow: /legal/
+# Host
+Host: https://your-vercel-app.vercel.app
 
-Sitemap: https://xxxx.com/sitemap.xml
+# Sitemaps
+Sitemap: https://your-vercel-app.vercel.app/sitemap.xml

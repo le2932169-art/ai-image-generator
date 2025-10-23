@@ -3,7 +3,7 @@ import { User } from "../type/type";
 import { QueryResultRow } from "pg";
 
 export async function insertUser(user: User) {
-  const db = await getDb();
+  const db = getDb();
   const res = await db.query(
     `INSERT INTO users 
           (uuid, email, created_at, nickname, avatar_url, locale, signin_type, signin_ip, signin_provider, signin_openid, update_time) 

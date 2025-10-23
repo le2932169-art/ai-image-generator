@@ -5,7 +5,7 @@ import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button} from "@ne
 import type { Selection } from "@nextui-org/react";
 import React from "react";
 import { localesName } from "@/i18n/routing";
-import NoSSR from "@/components/common/NoSSR";
+import HydrationSafe from "@/components/common/HydrationSafe";
 
 export default function Locales() { 
     const [selectedKeys, setSelectedKeys] = React.useState<Selection>(new Set(["text"]));
@@ -29,7 +29,7 @@ export default function Locales() {
       };
 
       return (
-        <NoSSR fallback={
+        <HydrationSafe fallback={
           <Button 
             variant="light"
             className="capitalize"
@@ -64,6 +64,6 @@ export default function Locales() {
               ))}
             </DropdownMenu>   
           </Dropdown>
-        </NoSSR>
+        </HydrationSafe>
       );
 }

@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { ErrorBoundary } from '@/components/common/ErrorBoundary';
 import { useNextUIHydrationFix, setupGlobalErrorHandler } from '@/lib/nextui-hydration-fix';
+import { initializeDOMFixes } from '@/lib/dom-fixes';
 
 interface ClientWrapperProps {
   children: React.ReactNode;
@@ -20,6 +21,9 @@ export function ClientWrapper({ children }: ClientWrapperProps) {
     
     // 设置全局错误处理器
     setupGlobalErrorHandler();
+    
+    // 应用强力DOM修复
+    initializeDOMFixes();
     
     // 监听DOM异常并自动恢复
     const handleError = (event: ErrorEvent) => {

@@ -15,7 +15,7 @@ import { Icon } from "@iconify/react";
 import { useAppContext } from "@/contexts/app";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import NoSSR from "@/components/common/NoSSR";
+import HydrationSafe from "@/components/common/HydrationSafe";
 export default function UserButton() {
   const router = useRouter();
   const { data: session } = useSession();
@@ -28,7 +28,7 @@ export default function UserButton() {
   }, [session, setUser, user]);
 
   return (
-    <NoSSR fallback={
+    <HydrationSafe fallback={
       <Avatar
         isBordered
         as="button"
@@ -113,6 +113,6 @@ export default function UserButton() {
         </DropdownItem>
       </DropdownMenu>
     </Dropdown>
-    </NoSSR>
+    </HydrationSafe>
   );
 }
