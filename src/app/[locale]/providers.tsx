@@ -5,6 +5,7 @@ import { NextUIProvider } from "@nextui-org/system";
 import { useRouter } from "next/navigation";
 import { ThemeProviderProps } from "next-themes/dist/types";
 import { ThemeProvider as ColorThemeProvider } from "@/contexts/theme";
+import SafeHydration from "@/components/common/SafeHydration";
 
 export interface ProvidersProps {
   children: React.ReactNode;
@@ -13,21 +14,20 @@ export interface ProvidersProps {
 
 export function Providers({ children }: any) {
   const router = useRouter();
-  const [isMounted, setIsMounted] = React.useState(false);
-
-  React.useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) {
-    return <div suppressHydrationWarning>{children}</div>;
-  }
 
   return (
-    <NextUIProvider navigate={router.push}>
-      <ColorThemeProvider>
-        {children}
-      </ColorThemeProvider>
-    </NextUIProvider>
+    <SafeHydration 
+      fallback={
+        <div className="min-h-screen bg-white">
+          {children}
+        </div>
+      }
+    >
+      <NextUIProvider navigate={router.push}>
+        <ColorThemeProvider>
+          {children}
+        </ColorThemeProvider>
+      </NextUIProvider>
+    </SafeHydration>
   );
 }
